@@ -11,15 +11,15 @@ user = os.getenv('username')
 password = os.getenv('password')
 login = r.login(user, password)
 profile = collections.defaultdict(list)
-IGNORELIST = ['GRPN', 'FIT']
+IGNORELIST = ['GRPN', 'FIT', 'ATVI']
 
 
 class Tranche:
 
     def __init__(self, tranche):
-        self.shares = tranche[0]
-        self.dateAcquired = tranche[1]
-        self.avgPrice = tranche[2]
+        self.shares = tranche["shares"]
+        self.dateAcquired = tranche["dateAcquired"]
+        self.avgPrice = tranche["avgPrice"]
 
 
 class Stock:
@@ -62,6 +62,7 @@ class Portfolio:
 
 
 if __name__ == "__main__":
+    # r.export_completed_stock_orders(".", "test.csv")
     with open('test.csv', 'r') as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in reversed(list(csvreader)):
@@ -69,17 +70,17 @@ if __name__ == "__main__":
             if symbol in IGNORELIST:
                 continue
             side = row['side']
-            tranche = [int(float(row['quantity'])),
-                       row['date'],
-                       float(row['average_price'])]
+            tranche = {"shares": int(float(row['quantity'])),
+                       "dateAcquired": row['date'],
+                       "avgPrice": float(row['average_price'])}
             match side:
                 case 'buy':
                     profile[symbol].append(tranche)
                 case 'sell':
-                    while tranche[0] > 0:
-                        profile[symbol][-1][0] -= 1
-                        tranche[0] -= 1
-                        if profile[symbol][-1][0] == 0:
+                    while tranche["shares"] > 0:
+                        profile[symbol][-1]["shares"] -= 1
+                        tranche["shares"] -= 1
+                        if profile[symbol][-1]["shares"] == 0:
                             profile[symbol].pop()
 
     portfolio = Portfolio()
@@ -91,8 +92,7 @@ if __name__ == "__main__":
         stock = portfolio.getStock(symbol)
         for tranche in tranches:
             stock.createTranche(tranche)
-    print(portfolio.positions['AMD'].tranches)
-    print(f'\nSymbol: {portfolio.positions["MMM"].symbol}')
-    portfolio.positions['MMM'].getShortTermCapitalGainsTranche()
 
-# r.export_completed_stock_orders(".", "test.csv")
+    for symbol, stockObj in portfolio.positions.items():
+        print(f'\nSymbol: {symbol}')
+        stockObj.getLongTermCapitalGainsTranche()
