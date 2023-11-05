@@ -48,6 +48,15 @@ class Stock:
                       sep="",
                       end="\n")
         print("")
+    
+    def getAllTranches(self):
+        for tranche in self.tranches:
+            print(f"\n\tShares: {tranche.shares}\n\t",
+                  f"Date Acquired: {tranche.dateAcquired}\n\t",
+                  f"Avg Price: {tranche.avgPrice}",
+                  sep="",
+                  end="\n")
+
 
 class Portfolio:
 
@@ -95,4 +104,4 @@ if __name__ == "__main__":
 
     for symbol, stockObj in portfolio.positions.items():
         print(f'\nSymbol: {symbol}')
-        stockObj.getLongTermCapitalGainsTranche()
+        stockObj.getAllTranches()
