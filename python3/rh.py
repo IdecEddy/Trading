@@ -6,13 +6,14 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv()
-user = os.getenv('username')
-password = os.getenv('password')
-login = r.login(user, password)
-profile = collections.defaultdict(list)
-IGNORELIST = ['GRPN', 'FIT', 'ATVI']
 
+class csvParser:
+
+    def __init__(self, csvFileName):
+        self.csvFileName = csvFileName
+
+    def updateProfile(self):
+        pass
 
 class Tranche:
 
@@ -21,7 +22,6 @@ class Tranche:
         self.dateAcquired = tranche["dateAcquired"]
         self.avgPrice = tranche["avgPrice"]
 
-
 class Stock:
 
     def __init__(self, symbol):
@@ -29,6 +29,7 @@ class Stock:
         self.tranches = []
 
     def createTranche(self, tranche):
+        """Adds a tranche object to the running list of tranche objects."""
         self.tranches.append(Tranche(tranche))
 
     def getLongTermCapitalGainsTranche(self):
@@ -71,6 +72,12 @@ class Portfolio:
 
 
 if __name__ == "__main__":
+    load_dotenv()
+    user = os.getenv('username')
+    password = os.getenv('password')
+    login = r.login(user, password)
+    profile = collections.defaultdict(list)
+    IGNORELIST = ['GRPN', 'FIT', 'ATVI']
     # r.export_completed_stock_orders(".", "test.csv")
     with open('test.csv', 'r') as csvfile:
         csvreader = csv.DictReader(csvfile)
