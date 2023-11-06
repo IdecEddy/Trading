@@ -15,12 +15,14 @@ class csvParser:
     def updateProfile(self):
         pass
 
+
 class Tranche:
 
     def __init__(self, tranche):
         self.shares = tranche["shares"]
         self.dateAcquired = tranche["dateAcquired"]
         self.avgPrice = tranche["avgPrice"]
+
 
 class Stock:
 
@@ -33,6 +35,10 @@ class Stock:
         self.tranches.append(Tranche(tranche))
 
     def getLongTermCapitalGainsTranche(self):
+        """
+        Prints out all stock tranches tranches
+        that are older the 365 days (one year).
+        """
         for tranche in self.tranches:
             if "." in tranche.dateAcquired:
                 dateFormat = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -49,8 +55,11 @@ class Stock:
                       sep="",
                       end="\n")
         print("")
-    
+
     def getAllTranches(self):
+        """
+        Prints out all tranches in this stock.
+        """
         for tranche in self.tranches:
             print(f"\n\tShares: {tranche.shares}\n\t",
                   f"Date Acquired: {tranche.dateAcquired}\n\t",
@@ -65,9 +74,15 @@ class Portfolio:
         self.positions = {}
 
     def createStock(self, symbol: str) -> None:
+        """
+        Creates a stock when given a symbol to identify it by
+        """
         self.positions[symbol] = Stock(symbol)
 
     def getStock(self, symbol: str) -> Stock:
+        """
+        Get a stock object given a valid symbol
+        """
         return self.positions[symbol]
 
 
@@ -75,10 +90,11 @@ if __name__ == "__main__":
     load_dotenv()
     user = os.getenv('username')
     password = os.getenv('password')
-    login = r.login(user, password)
+    mfaCode = input("enter the MFA code")
+    login = r.login(user, password, mfa_code=mfaCode)
     profile = collections.defaultdict(list)
     IGNORELIST = ['GRPN', 'FIT', 'ATVI']
-    # r.export_completed_stock_orders(".", "test.csv")
+    r.export_completed_stock_orders(".", "test.csv")
     with open('test.csv', 'r') as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in reversed(list(csvreader)):

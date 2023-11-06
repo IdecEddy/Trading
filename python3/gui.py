@@ -1,57 +1,48 @@
-#!/bin/python3
+#!bin/python
 import tkinter as tk
-from tkcalendar import Calendar
-from datetime import datetime
+from tkinter import font
 
-def close_window():
-    root.destroy()
 
-def get_selected_date():
-    selected_date = cal1.get_date()
-    selected_timestamp = datetime.strptime(selected_date, "%d/%m/%y").timestamp()
-    selected_date_label1.config(text=f"Unix Timestamp: {int(selected_timestamp)}")
+def close_app():
+    window.destroy()
 
-def get_selected_date2():
-    selected_date = cal2.get_date()
-    selected_date_label2.config(text=f"Selected Date 2: {selected_date}")
+def login():
+    pass
 
-root = tk.Tk()
-root.title("Window with Stylish Date Selection")
 
-# Create a button for closing the window
-close_button = tk.Button(root, text="Close", command=close_window)
-close_button.pack(side=tk.TOP, anchor=tk.NE)
+GREEN = "#11ce98"
+window = tk.Tk()
+window.title("Robinhood Login")
+window.minsize(400, 300)
 
-# Create a frame for the first calendar and related widgets
-frame1 = tk.Frame(root)
-frame1.pack(side=tk.LEFT, padx=10)
+rootFrame = tk.Frame(window, bg=GREEN)
+rootFrame.pack(expand=True, fill="both")
 
-# Create the first calendar widget for date selection
-cal1 = Calendar(frame1, height=200, width=200)
-cal1.pack()
+topBar = tk.Frame(rootFrame, bg="gray")
+topBar.pack(side="top", fill="x")
 
-# Create a button to get the selected date from the first calendar
-get_date_button1 = tk.Button(frame1, text="Get Selected Date 1", command=get_selected_date)
-get_date_button1.pack()
+close_button = tk.Button(topBar, text="Close", command=close_app)
+close_button.pack(side="right")
 
-# Create a label to display the selected date from the first calendar
-selected_date_label1 = tk.Label(frame1, text="")
-selected_date_label1.pack()
+loginFrame = tk.Frame(rootFrame, bg=GREEN)
+loginFrame.place(relx=0.5, rely=0.5, anchor="center")
 
-# Create a frame for the second calendar and related widgets
-frame2 = tk.Frame(root)
-frame2.pack(side=tk.LEFT, padx=10)
+usernameLabel = tk.Label(loginFrame, text="Username:", bg=GREEN)
+usernameLabel.grid(row=0, column=0, padx=10, pady=5)
+usernameEntry = tk.Entry(loginFrame, width=30)
+usernameEntry.grid(row=0, column=1, padx=10, pady=5)
 
-# Create the second calendar widget for date selection
-cal2 = Calendar(frame2, height=200, width=200)
-cal2.pack()
+passwordLable = tk.Label(loginFrame, text="Password:", bg=GREEN)
+passwordLable.grid(row=1, column=0, padx=10, pady=5)
+passwordEntry = tk.Entry(loginFrame, show="*", width=30)
+passwordEntry.grid(row=1, column=1, padx=10, pady=5)
 
-# Create a button to get the selected date from the second calendar
-get_date_button2 = tk.Button(frame2, text="Get Selected Date 2", command=get_selected_date2)
-get_date_button2.pack()
+mfaLabel = tk.Label(loginFrame, text="MFA Code:", bg=GREEN)
+mfaLabel.grid(row=2, column=0, padx=10, pady=5)
+mfaEntry = tk.Entry(loginFrame, width=30)
+mfaEntry.grid(row=2, column=1, padx=10, pady=5)
 
-# Create a label to display the selected date from the second calendar
-selected_date_label2 = tk.Label(frame2, text="")
-selected_date_label2.pack()
+login_button = tk.Button(loginFrame, text="Log In", command=login)
+login_button.grid(row=3, column=0, columnspan=2, padx=10, pady=5)
 
-root.mainloop()
+window.mainloop()
