@@ -25,7 +25,7 @@ jobs:
 
       - name: Generate Documentation
         run: |
-          pdoc --html --output-dir docs src  # Adjust the input and output directories as needed
+          pdoc --html --output-dir docs /python3/src  # Adjust the input and output directories as needed
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
