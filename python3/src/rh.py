@@ -1,19 +1,46 @@
-#!bin/python
+#!../bin/python
 import robin_stocks.robinhood as r
 import csv
 import collections
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+from typing import List
 
+class CSVParser:
 
-class csvParser:
-
-    def __init__(self, csvFileName):
-        self.csvFileName = csvFileName
-
-    def updateProfile(self):
+    def __init__(self):
         pass
+
+    def setCSVFile(self, CSVFileName: str):
+        self.CSVFileName = CSVFileName
+
+    def setIgnoreList(self, ignoreList: List[str]):
+        self.ignoreList = ignoreList
+
+    def setProfile(self):
+        profile = collections.defaultdict(list)
+        with open('test.csv', 'r') as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in reversed(list(csvreader)):
+                symbol = row["symbol"]
+                if symbol in self.ignoreList:
+                    continue
+                side = row['side']
+                tranche = {"shares": int(float(row['quantity'])),
+                           "dateAcquired": row['date'],
+                           "avgPrice": float(row['average_price'])}
+                match side:
+                    case 'buy':
+                        profile[symbol].append(tranche)
+                    case 'sell':
+                        while tranche["shares"] > 0:
+                            profile[symbol][-1]["shares"] -= 1
+                            tranche["shares"] -= 1
+                            if profile[symbol][-1]["shares"] == 0:
+                                profile[symbol].pop()
+
+        return profile
 
 
 class Tranche:
@@ -85,45 +112,35 @@ class Portfolio:
         """
         return self.positions[symbol]
 
+    def setCSVObj(self):
+        self.csvParser = CSVParser()
+        self.csvParser.setCSVFile('test.csv')
+        IGNORELIST = ['GRPN', 'FIT', 'ATVI']
+        self.csvParser.setIgnoreList(IGNORELIST)
+
+    def getProfile(self):
+        profile = self.csvParser.setProfile()
+
+        for symbol, tranches in profile.items():
+            if not tranches:
+                continue
+            self.createStock(symbol)
+            stock = self.getStock(symbol)
+            for tranche in tranches:
+                stock.createTranche(tranche)
 
 if __name__ == "__main__":
     load_dotenv()
     user = os.getenv('username')
     password = os.getenv('password')
     mfaCode = input("enter the MFA code")
+    
     login = r.login(user, password, mfa_code=mfaCode)
-    profile = collections.defaultdict(list)
-    IGNORELIST = ['GRPN', 'FIT', 'ATVI']
-    r.export_completed_stock_orders(".", "test.csv")
-    with open('test.csv', 'r') as csvfile:
-        csvreader = csv.DictReader(csvfile)
-        for row in reversed(list(csvreader)):
-            symbol = row["symbol"]
-            if symbol in IGNORELIST:
-                continue
-            side = row['side']
-            tranche = {"shares": int(float(row['quantity'])),
-                       "dateAcquired": row['date'],
-                       "avgPrice": float(row['average_price'])}
-            match side:
-                case 'buy':
-                    profile[symbol].append(tranche)
-                case 'sell':
-                    while tranche["shares"] > 0:
-                        profile[symbol][-1]["shares"] -= 1
-                        tranche["shares"] -= 1
-                        if profile[symbol][-1]["shares"] == 0:
-                            profile[symbol].pop()
-
+    r.export_completed_stock_orders(".", "test.csv") 
+    
     portfolio = Portfolio()
-
-    for symbol, tranches in profile.items():
-        if not tranches:
-            continue
-        portfolio.createStock(symbol)
-        stock = portfolio.getStock(symbol)
-        for tranche in tranches:
-            stock.createTranche(tranche)
+    portfolio.setCSVObj()
+    portfolio.getProfile()
 
     for symbol, stockObj in portfolio.positions.items():
         print(f'\nSymbol: {symbol}')
