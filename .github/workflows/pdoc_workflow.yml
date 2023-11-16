@@ -32,3 +32,15 @@ jobs:
         with:
           name: docs
           path: ./docs
+  create_github_pages:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Deploy
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: python3/github_pages
