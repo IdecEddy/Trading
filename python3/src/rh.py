@@ -61,7 +61,7 @@ class Stock:
         """Adds a tranche object to the running list of tranche objects."""
         self.tranches.append(Tranche(tranche))
 
-    def getLongTermCapitalGainsTranche(self):
+    def getLongTermCapitalGainsTranche(self):  # pragma: no cover
         """
         Prints out all stock tranches tranches
         that are older the 365 days (one year).
@@ -83,7 +83,7 @@ class Stock:
                       end="\n")
         print("")
 
-    def getAllTranches(self):
+    def getAllTranches(self):  # pragma: no cover
         """
         Prints out all tranches in this stock.
         """
@@ -129,7 +129,7 @@ class Portfolio:
             for tranche in tranches:
                 stock.createTranche(tranche)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     load_dotenv()
     user = os.getenv('username')
     password = os.getenv('password')

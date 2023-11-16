@@ -1,6 +1,7 @@
 # tests/test_rh.py
 from src.rh import Portfolio
 from src.rh import Stock
+from src.rh import CSVParser
 
 def test_create_stock():
     portfolio = Portfolio()
@@ -13,3 +14,13 @@ def test_get_stock():
     stock = portfolio.getStock("AMD")
     assert type(stock) == Stock
     assert stock.symbol == "AMD"
+def test_CSV_obj_creation():
+    portfolio = Portfolio()
+    portfolio.setCSVObj()
+    assert type(portfolio.csvParser) == CSVParser
+def test_get_portfolio():
+    portfolio = Portfolio()
+    portfolio.setCSVObj()
+    portfolio.getProfile()
+    assert type(portfolio.csvParser) == CSVParser
+    assert type(portfolio.getStock("AMD")) == Stock

@@ -27,9 +27,8 @@ jobs:
         run: |
           pdoc -o docs python3/src  # Adjust the input and output directories as needed
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Archive Directory
+        uses: actions/upload-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-
+          name: docs
+          path: python3/docs
