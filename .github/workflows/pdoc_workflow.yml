@@ -74,7 +74,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: coverage
-          path: ./python3/github_pages/report
+          path: ./python3/github_pages/123
 
       - name: List contents of github_pages directory
         run: ls -R ./python3/github_pages 
