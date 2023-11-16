@@ -76,6 +76,9 @@ jobs:
           name: coverage
           path: ./python3/github_pages/cov
 
+      - name: List contents of github_pages directory
+        run: ls -R ./python3/github_pages 
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
