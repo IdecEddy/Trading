@@ -1,5 +1,9 @@
 name: Generate and Upload Documentation
 
+stages:
+  - build
+  - deploy
+
 on:
   push:
     branches:
@@ -8,6 +12,7 @@ on:
 jobs:
   generate_and_upload_docs:
     runs-on: ubuntu-latest
+    stage: build
 
     steps:
       - name: Checkout Repository
@@ -32,8 +37,10 @@ jobs:
         with:
           name: docs
           path: ./docs
+
   create_github_pages:
       runs-on: ubuntu-latest
+      stage: deploy
 
       steps:
         - name: Checkout Repository
