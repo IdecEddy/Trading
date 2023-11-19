@@ -18,6 +18,10 @@ def test_CSV_obj_creation():
     portfolio = Portfolio()
     portfolio.setCSVObj("test.csv", ['GRPN', 'FIT', 'ATVI'])
     assert type(portfolio.csvParser) == CSVParser
+def test_CSV_IGNORELIST_none():
+    portfolio = Portfolio()
+    portfolio.setCSVObj("test.csv")
+    assert type(portfolio.csvParser) == CSVParser
 def test_get_portfolio():
     portfolio = Portfolio()
     portfolio.setCSVObj("test.csv", ['GRPN', 'FIT', 'ATVI'])
