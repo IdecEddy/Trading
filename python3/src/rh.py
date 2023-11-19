@@ -5,7 +5,7 @@ import collections
 import os
 from datetime import datetime
 from dotenv import load_dotenv
-from typing import List
+from typing import List, Optional
 
 class CSVParser:
 
@@ -19,8 +19,11 @@ class CSVParser:
         """
         self.CSVFileName = CSVFileName
 
-    def setIgnoreList(self, ignoreList: List[str]):
-        self.ignoreList = ignoreList
+    def setIgnoreList(self, ignoreList: Optional[List[str]]):
+        if ignoreList:
+            self.ignoreList = ignoreList
+        else:
+            self.ignoreList = []
 
     def setProfile(self):
         profile = collections.defaultdict(list)
@@ -116,11 +119,10 @@ class Portfolio:
         """
         return self.positions[symbol]
 
-    def setCSVObj(self):
+    def setCSVObj(self, csvFile: str, ignoreList: Optional[List[str]] = None):
         self.csvParser = CSVParser()
-        self.csvParser.setCSVFile('test.csv')
-        IGNORELIST = ['GRPN', 'FIT', 'ATVI']
-        self.csvParser.setIgnoreList(IGNORELIST)
+        self.csvParser.setCSVFile(csvFile)
+        self.csvParser.setIgnoreList(ignoreList)
 
     def getProfile(self):
         profile = self.csvParser.setProfile()
@@ -138,12 +140,13 @@ if __name__ == "__main__":  # pragma: no cover
     user = os.getenv('username')
     password = os.getenv('password')
     mfaCode = input("enter the MFA code")
-    
+    CSVFILE = 'test.csv'
+    IGNORELIST = ['GRPN', 'FIT', 'ATVI']
     login = r.login(user, password, mfa_code=mfaCode)
     r.export_completed_stock_orders(".", "test.csv") 
     
     portfolio = Portfolio()
-    portfolio.setCSVObj()
+    portfolio.setCSVObj(CSVFILE, IGNORELIST)
     portfolio.getProfile()
 
     for symbol, stockObj in portfolio.positions.items():

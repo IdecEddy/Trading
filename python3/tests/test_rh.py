@@ -16,11 +16,11 @@ def test_get_stock():
     assert stock.symbol == "AMD"
 def test_CSV_obj_creation():
     portfolio = Portfolio()
-    portfolio.setCSVObj()
+    portfolio.setCSVObj("test.csv", ['GRPN', 'FIT', 'ATVI'])
     assert type(portfolio.csvParser) == CSVParser
 def test_get_portfolio():
     portfolio = Portfolio()
-    portfolio.setCSVObj()
+    portfolio.setCSVObj("test.csv", ['GRPN', 'FIT', 'ATVI'])
     portfolio.getProfile()
     assert type(portfolio.csvParser) == CSVParser
     assert type(portfolio.getStock("AMD")) == Stock
