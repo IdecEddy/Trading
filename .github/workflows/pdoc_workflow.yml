@@ -74,3 +74,11 @@ jobs:
         with:
           name: coverage
           path: ./python3/github_pages/coverage
+      - name: Create branch with specific directory
+        run: |
+          git checkout --orphan gh-pages2
+          git rm -rf .
+          git clean -fdX
+          git checkout main -- python3/github_pages
+          git commit -m "Create branch with only specific directory"
+          git push origin gh-pages2
