@@ -76,6 +76,8 @@ jobs:
           path: ./github_pages/coverage
       - name: Create branch with specific directory
         run: |
+          git config --global user.email "edwingmundo2@gmail.com"
+          git config --global user.name "Edwin M"
           git checkout --orphan gh-pages2
           git rm -rf .
           git clean -fdX
