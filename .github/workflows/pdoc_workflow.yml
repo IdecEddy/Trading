@@ -58,6 +58,9 @@ jobs:
 
   create_github_pages:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     needs: 
       - generate_docs
       - generate_code_cov
@@ -74,7 +77,13 @@ jobs:
         with:
           name: docs
           path: ./github_pages/docs
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          folder: github_pages # The folder the action should deploy.
+          # Upload entire repository
+          path: '.github_pages'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2         
