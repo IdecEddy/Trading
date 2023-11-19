@@ -74,15 +74,7 @@ jobs:
         with:
           name: coverage
           path: ./github_pages/coverage
-      - name: Create branch with specific directory
-        run: |
-          git config --global user.email "edwingmundo2@gmail.com"
-          git config --global user.name "Edwin M"
-          git checkout --orphan gh-pages2
-          git rm -rf --ignore-unmatch .
-          git clean -fdX
-          git checkout main -- github_pages/*
-          ls github_pages
-          git status
-          git commit -m "Create branch with only specific directory"
-          git push origin gh-pages2
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: github_pages # The folder the action should deploy.
