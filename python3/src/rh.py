@@ -13,6 +13,10 @@ class CSVParser:
         pass
 
     def setCSVFile(self, CSVFileName: str):
+        """
+        Set the CSV file name to be used by
+        the parser.
+        """
         self.CSVFileName = CSVFileName
 
     def setIgnoreList(self, ignoreList: List[str]):
