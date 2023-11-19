@@ -44,7 +44,7 @@ jobs:
           pdoc -o docs python3/src  # Adjust the input and output directories as needed
 
       - name: Archive Directory
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: docs
           path: ./docs
@@ -67,7 +67,7 @@ jobs:
       - name: Generate code coverage report 
         run: pytest --cov --cov-report=html:coverage_re python3/tests
       - name: Archive Directory
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage_re
@@ -84,12 +84,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Download coverage report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: ./github_pages/coverage
       - name: Download docs
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: docs
           path: ./github_pages/docs
