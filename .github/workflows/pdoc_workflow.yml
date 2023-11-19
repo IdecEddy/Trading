@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           # Upload entire repository
-          path: '.github_pages'
+          path: './github_pages'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2         
