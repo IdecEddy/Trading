@@ -68,17 +68,17 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: docs
-          path: ./python3/github_pages/docs
+          path: ./github_pages/docs
       - name: Download coverage report
         uses: actions/download-artifact@v2
         with:
           name: coverage
-          path: ./python3/github_pages/coverage
+          path: ./github_pages/coverage
       - name: Create branch with specific directory
         run: |
           git checkout --orphan gh-pages2
           git rm -rf .
           git clean -fdX
-          git checkout main -- python3/github_pages
+          git checkout main -- github_pages
           git commit -m "Create branch with only specific directory"
           git push origin gh-pages2
