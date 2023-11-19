@@ -81,6 +81,8 @@ jobs:
           git checkout --orphan gh-pages2
           git rm -rf .
           git clean -fdX
-          git checkout main -- github_pages
+          git checkout main -- github_pages/*
+          ls github_pages
+          git status
           git commit -m "Create branch with only specific directory"
           git push origin gh-pages2
