@@ -1,0 +1,11 @@
+python3/bin
+python3/lib
+python3/lib64
+python3/share
+python3/src/.env
+python3/src/__pycache__
+python3/src/test.csv
+python3/src/test2.csv
+python3/test.csv
+python3/tests/__pycache__
+
