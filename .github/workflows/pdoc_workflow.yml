@@ -70,19 +70,15 @@ jobs:
         with:
           name: docs
           path: ./python3/github_pages/docs
-
       - name: Download coverage report
         uses: actions/download-artifact@v2
         with:
           name: coverage
           path: ./python3/github_pages/123
-
-      - name: List contents of github_pages directory
-        run: ls -R ./python3/github_pages 
-      - name: run a pwd
-        run: pwd
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./python3/github_pages/123
+      - name: Create empty branch
+        run: |
+          git checkout --orphan gh-pages
+          git rm -rf .
+          git add github_pages
+          git commit --allow-empty -m "Create empty branch"
+          git push origin gh-pages
