@@ -10,3 +10,5 @@ python3/test.csv
 python3/tests/__pycache__
 coverage_re
 .coverage
+key.pem
+cert.pem
