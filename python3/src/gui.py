@@ -1,13 +1,19 @@
-#!bin/python
+#!../bin/python
 import tkinter as tk
-from tkinter import font
+import robin_stocks.robinhood as r
 
 
 def close_app():
     window.destroy()
 
 def login():
-    pass
+    # Get values from entry fields
+    username = usernameEntry.get()
+    password = passwordEntry.get()
+    mfa_code = mfaEntry.get()
+    login = r.login(username, password, mfa_code=mfa_code)
+    # Print or use the gathered values as needed
+    print(login) 
 
 if __name__ == "__main__":
     GREEN = "#11ce98"
