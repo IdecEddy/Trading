@@ -12,3 +12,4 @@ coverage_re
 .coverage
 key.pem
 cert.pem
+trading_database.db
