@@ -16,7 +16,7 @@ REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-class Sqlite_db():
+class Sqlite_db(): # pragma: no cover
     def database_create_user_table(self):
         with sqlite3.connect('trading_database.db') as connection:
             cursor = connection.cursor()
@@ -112,6 +112,11 @@ def get_current_user(session_token: str = Cookie(None, alias='access_token')):
         raise credentials_exception
 
 
+@app.get("/")
+def home():
+    return "Hello World"
+
+
 @app.post("/login")
 async def login(
         response: Response,
@@ -141,6 +146,6 @@ async def protected_route(current_user: dict = Depends(get_current_user)):
     return {"message": "This is a protected route", "user": current_user}
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
