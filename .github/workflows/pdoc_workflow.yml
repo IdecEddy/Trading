@@ -24,7 +24,8 @@ concurrency:
 jobs:
   generate_docs:
     runs-on: ubuntu-latest
-
+    env:
+      PYTHONPATH: ${{ github.workspace }}/python3/
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
