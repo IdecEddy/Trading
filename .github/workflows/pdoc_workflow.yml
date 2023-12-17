@@ -52,7 +52,7 @@ jobs:
   generate_code_cov:
     runs-on: ubuntu-latest
     env:
-      PYTHONPATH: ${{ github.workspace }}/python3
+      PYTHONPATH: ${{ github.workspace }}/python3/
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

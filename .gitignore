@@ -8,7 +8,8 @@ python3/src/test.csv
 python3/src/test2.csv
 python3/test.csv
 python3/tests/__pycache__
-python3/logs
+python3/logs/*
+!python3/logs/.gitkeep
 coverage_re
 .coverage
 key.pem
