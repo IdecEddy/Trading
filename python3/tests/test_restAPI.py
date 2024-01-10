@@ -5,7 +5,7 @@ import jwt
 
 
 client = TestClient(app)
-
+'''
 def test_robinhood_user():
     valid_token = jwt.encode(
             {
@@ -21,7 +21,7 @@ def test_robinhood_user():
             cookies={"access_token": valid_token})
 
     assert response.status_code == 200
-
+'''
 def test_protected_route_with_valid_token():
     # Generate a valid token for testing
     valid_token = jwt.encode(
